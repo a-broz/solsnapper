@@ -2,8 +2,8 @@ import { clusterApiUrl } from "@solana/web3.js";
 import commandLineArgs from "command-line-args";
 import update from "./helper/update.js";
 import convert from "./helper/convert.js";
+import snapshot from "./helper/snapshot.js";
 import { colors } from "./helper/colors.js";
-
 const mainDefinitions = [
   { name: "command", defaultOption: true },
   { name: "rpc", type: String, alias: "r" },
@@ -32,7 +32,7 @@ switch (mainOptions.command) {
       { name: "mint", type: String, alias: "m" },
     ];
     const updateOptions = commandLineArgs(updateDefinitions, { argv });
-    update({ rpc: rpc, updateOptions: updateOptions });
+    await update({ rpc: rpc, updateOptions: updateOptions });
     break;
 
   case "convert":
@@ -41,6 +41,21 @@ switch (mainOptions.command) {
       console.log(colors.green, "Key converted! a key.json file was created");
     } catch (e) {
       console.log(colors.red, `Error converting Private Key: ${e}`);
+    }
+    break;
+
+  case "snapshot":
+    const snapshotDefinitions = [
+      { name: "type", defaultOption: true },
+      { name: "creator", type: String, alias: "c" },
+      { name: "owner", type: String, alias: "o" },
+    ];
+    const snapshotOptions = commandLineArgs(snapshotDefinitions, { argv });
+    try {
+      await snapshot({ rpc: rpc, snapshotOptions: snapshotOptions });
+      console.log(colors.green, "Snapshot successfull!");
+    } catch (e) {
+      console.log(colors.red, `Error getting hashlist ${e}` );
     }
     break;
 

@@ -1,5 +1,5 @@
 import { Connection, Keypair, PublicKey } from "@solana/web3.js";
-import { keypairIdentity, Metaplex, SelectedGuardGroupDoesNotExistError } from "@metaplex-foundation/js";
+import { keypairIdentity, Metaplex } from "@metaplex-foundation/js";
 import { colors } from "./colors.js";
 import { readFileSync } from "fs";
 
