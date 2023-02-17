@@ -3,6 +3,7 @@
   "dependencies": {
     "@metaplex-foundation/js": "^0.18.1",
     "@solana/web3.js": "^1.73.2",
-    "command-line-args": "^5.2.1"
+    "command-line-args": "^5.2.1",
+    "dotenv": "^16.0.3"
   }
 }
