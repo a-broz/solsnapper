@@ -10,8 +10,6 @@ export default async function snapshot({ rpc, snapshotOptions }) {
       "Must include the type of snapshot to perform, i.e. snapshot mints"
     );
   }
-  console.log(snapshotOptions);
-  
   if (!snapshotOptions?.creator && !snapshotOptions?.owner) {
     console.log(
       colors.green,

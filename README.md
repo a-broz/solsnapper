@@ -1,19 +1,36 @@
 # Solana Token Snapshot Tool
+
 Tool for snapshotting tokens + token metadata accounts
 - On-chain Metadata Snapshot
 - On-chain Metadata Updates
 
-## Commands
-#### Convert Key
-This command converts a private key from B58 to Uint8Array. Who cares? When you export your wallet from Phantom, or other wallets, it will likely look something like this: 
+## Quickstart / Example usage
 
-`kNykCXNxgePDjFbDWjPNvXQRa8U12Ywc19dFVaQ7tebUj3m7H4sF4KKdJwM7yxxb3rqxchdjezX9Szh8bLcQAjb`
+`node solsnapper.js snapshot --rpc <RPC HOST HERE> mints --creator <CREATOR ADDRESS>`
 
-In order to use this for solana command line, you will need to convert it to a Uint8Array json file. This command will handle this for you and spit out `key.json`
+## Snapshot Commands
 
-<i><b>Example Command</b></i>
-    
-    ```node solsnapper.js convert```
+### Snapshot by Creator
 
-#### Update
-```node solsnapper.js update --rpc https://rpc.host.goes.here/ --name <Nft Name> --mint <Mint Address>```
+Returns a list of mint addresses by creator. Note: For larger collections this can take up to 10 minutes. If it fails, run it again.
+`node solsnapper.js snapshot mints --creator <Creator Address>`
+
+#### Snapshot by Owner
+
+Returns a list of mint addresses by owner wallet.
+`node solsnapper.js snapshot mints --owner <Owner Wallet>`
+
+## Metadata Update Commands
+
+To process any of the below commands, you must first ensure that you have update authority over the NFT(s) that you are trying to udpate. To setup your key, follow the steps below:
+
+1. Rename `.env.example` to `.env`.
+2. Add your private key to the .env file, e.g.:
+```
+PRIV_KEY=kNykCXNxgePDjFbDWjPNvXQRa8U12Ywc19dFVaQ7tebUj3m7H4sF4KKdJwM7yxxb3rqxchdjezX9Szh8bLcQAjb
+```
+3. Run `node solsnapper.js convert` 
+<b>NOTE:</b> This command converts a private key from B58 to Uint8Array which is what `solana` commandline uses by default. It will spit out a `key.json` file.
+
+#### Update Nft Name
+`node solsnapper.js update --rpc https://rpc.host.goes.here/ --name <Nft Name> --mint <Mint Address>`
