@@ -12,13 +12,15 @@ Tool for snapshotting tokens + token metadata accounts
 
 ### Snapshot by Creator
 
-Returns a list of mint addresses by creator. Note: For larger collections this can take up to 10 minutes. If it fails, run it again.
 `node solsnapper.js snapshot mints --creator <Creator Address>`
+
+Returns a list of mint addresses by creator. Note: For larger collections this can take up to 10 minutes. If it fails, run it again.
 
 #### Snapshot by Owner
 
-Returns a list of mint addresses by owner wallet.
 `node solsnapper.js snapshot mints --owner <Owner Wallet>`
+
+Returns a list of mint addresses by owner wallet.
 
 ## Metadata Update Commands
 
