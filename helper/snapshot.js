@@ -28,7 +28,7 @@ export default async function snapshot({ rpc, snapshotOptions }) {
   if (snapshotOptions.creator) {
     console.log(
       colors.green,
-      `Snapshotting mints by creator ${snapshotOptions.creator}`
+      `Snapshotting mints by creator ${snapshotOptions.creator}\nNote: this can take a long time for larger collections.`
     );
     let creator;
     try {
