@@ -1,7 +1,7 @@
-import { PublicKey, Connection } from "@solana/web3.js";
-import { Metaplex } from "@metaplex-foundation/js";
 import { colors } from "./colors.js";
-import { writeFileSync } from "fs";
+import { getMints } from "./getMints.js";
+import { getMetadata } from "./getMetadata.js";
+import { getImages } from "./getImages.js";
 
 export default async function snapshot({ rpc, snapshotOptions }) {
   if (!snapshotOptions.type) {
@@ -9,69 +9,29 @@ export default async function snapshot({ rpc, snapshotOptions }) {
       colors.red,
       "Must include the type of snapshot to perform, i.e. snapshot mints"
     );
+    return false;
   }
-  if (!snapshotOptions?.creator && !snapshotOptions?.owner) {
-    console.log(
-      colors.green,
-      "Must include --creator or --owner"
-    );
-  }
-  if (snapshotOptions?.creator && snapshotOptions?.owner) {
-    console.log(
-      colors.green,
-      "Can only include either --creator or --owner"
-    );
-  }
-  const connection = new Connection(rpc, { httpAgent: false });
-  const metaplex = new Metaplex(connection);
-
-  if (snapshotOptions.creator) {
-    console.log(
-      colors.green,
-      `Snapshotting mints by creator ${snapshotOptions.creator}\nNote: this can take a long time for larger collections.`
-    );
-    let creator;
-    try {
-      creator = new PublicKey(snapshotOptions.creator);
-    } catch (e) {
-      console.log(colors.red, "Invalid creator address");
-      return;
+  if (snapshotOptions.type == "mints") {
+    if (!snapshotOptions?.creator || !snapshotOptions?.owner) {
+      console.log(colors.green, "Must include --creator or --owner");
+      return false;
     }
-    await snapByCreator({ creator: creator, metaplex: metaplex });
-  } else if (snapshotOptions.owner) {
-    console.log(
-      colors.green,
-      `Snapshotting mints by owner ${snapshotOptions.owner}`
-    );
-    let owner;
-    try {
-      owner = new PublicKey(snapshotOptions.owner);
-    } catch (e) {
-      console.log(colors.red, "Invalid owner address");
-      return;
+    if (snapshotOptions?.creator && snapshotOptions?.owner) {
+      console.log(colors.green, "Can only include either --creator or --owner");
+      return false;
     }
-    await snapByOwner({ owner: owner, metaplex: metaplex });
+    getMints(rpc, snapshotOptions);
   }
 
-  return;
-}
-
-async function snapByOwner({ owner, metaplex }) {
-  const nfts = await metaplex.nfts().findAllByOwner({ owner: owner });
-  let mints = [];
-  for (const nft of nfts) {
-    mints.push(nft.mintAddress.toBase58());
+  if (snapshotOptions.type == "metadata") {
+    console.log(rpc)
+    getMetadata(rpc, snapshotOptions);
   }
-  writeFileSync("mintsByOwner.json", JSON.stringify(mints));
-  return;
-}
 
-async function snapByCreator({ creator, metaplex }) {
-  const nfts = await metaplex.nfts().findAllByCreator({ creator: creator });
-  let mints = [];
-  for (const nft of nfts) {
-    mints.push(nft.mintAddress.toBase58());
+  if (snapshotOptions.type == "images") {
+    console.log(rpc)
+    getImages(rpc, snapshotOptions);
   }
-  writeFileSync("mintsByCreator.json", JSON.stringify(mints));
+
   return;
 }

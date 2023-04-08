@@ -10,17 +10,29 @@ Tool for snapshotting tokens + token metadata accounts
 
 ## Snapshot Commands
 
-### Snapshot by Creator
+### Snapshot mints by Creator
 
 `node solsnapper.js snapshot mints --creator <Creator Address>`
 
 Returns a list of mint addresses by creator. Note: For larger collections this can take up to 10 minutes. If it fails, run it again.
 
-#### Snapshot by Owner
+### Snapshot mints by Owner
 
 `node solsnapper.js snapshot mints --owner <Owner Wallet>`
 
 Returns a list of mint addresses by owner wallet.
+
+### Snapshot images by mint list
+
+`node solsnapper.js --rpc <RPC> snapshot images -l <mint list file>`
+
+Downloads image files from a list of NFTs.
+
+### Snapshot metdata by mint list
+
+`node solsnapper.js --rpc <RPC> snapshot metadata -l <mint list file>`
+
+Downloads off chain metadata json structures from a list of NFTs.
 
 ## Metadata Update Commands
 

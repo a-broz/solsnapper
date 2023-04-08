@@ -13,7 +13,7 @@ const mainOptions = commandLineArgs(mainDefinitions, {
 });
 
 let rpc;
-if (!mainOptions.rpc && mainOptions.command != "convert") {
+if (!mainOptions.rpc) {
   console.log(
     colors.yellow,
     "Using default RPC. Warning this may fail for larger mint lists. \n Use --rpc <NODE> to enter a private one!"
@@ -49,13 +49,13 @@ switch (mainOptions.command) {
       { name: "type", defaultOption: true },
       { name: "creator", type: String, alias: "c" },
       { name: "owner", type: String, alias: "o" },
+      { name: "mintList", type: String, alias: "l" },
     ];
     const snapshotOptions = commandLineArgs(snapshotDefinitions, { argv });
     try {
       await snapshot({ rpc: rpc, snapshotOptions: snapshotOptions });
-      console.log(colors.green, "Snapshot successfull!");
     } catch (e) {
-      console.log(colors.red, `Error getting hashlist ${e}` );
+      console.log(colors.red, `Error getting hashlist ${e}`);
     }
     break;
 
