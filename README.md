@@ -14,7 +14,7 @@ Tool for snapshotting tokens + token metadata accounts
 
 `node solsnapper.js snapshot mints --creator <Creator Address>`
 
-Returns a list of mint addresses by creator. Note: For larger collections this can take up to 10 minutes. If it fails, run it again.
+Returns a list of mint addresses by first verified creator. Note: For larger collections this can take up to 10 minutes. If it fails, run it again.
 
 ### Snapshot mints by Owner
 
@@ -26,7 +26,7 @@ Returns a list of mint addresses by owner wallet.
 
 `node solsnapper.js --rpc <RPC> snapshot images -l <mint list file>`
 
-Downloads image files from a list of NFTs.
+Downloads a snapshot of image files from a list of NFTS.
 
 ### Snapshot metdata by mint list
 
@@ -48,3 +48,10 @@ PRIV_KEY=kNykCXNxgePDjFbDWjPNvXQRa8U12Ywc19dFVaQ7tebUj3m7H4sF4KKdJwM7yxxb3rqxchd
 
 #### Update Nft Name
 `node solsnapper.js update --rpc https://rpc.host.goes.here/ --name <Nft Name> --mint <Mint Address>`
+
+#### Update Nft collection against list
+This will update a list of mint addresses onto a new metaplex collection.
+
+`--collection` should be set as the correct collection NFT address
+
+`node solsnapper.js --rpc <RPC> update --list mintsByCreator.json --collection 4chqK6Lau6EUytPEoVvUS2qFWvCRM4tqftv79FFn7hEj`
