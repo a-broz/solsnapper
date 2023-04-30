@@ -29,7 +29,9 @@ switch (mainOptions.command) {
     console.log(colors.green, "Processing Update...");
     const updateDefinitions = [
       { name: "name", type: String, alias: "n" },
+      { name: "collection", type: String, alias: "c" },
       { name: "mint", type: String, alias: "m" },
+      { name: "list", type: String, alias: "l" },
     ];
     const updateOptions = commandLineArgs(updateDefinitions, { argv });
     await update({ rpc: rpc, updateOptions: updateOptions });
@@ -49,7 +51,7 @@ switch (mainOptions.command) {
       { name: "type", defaultOption: true },
       { name: "creator", type: String, alias: "c" },
       { name: "owner", type: String, alias: "o" },
-      { name: "mintList", type: String, alias: "l" },
+      { name: "list", type: String, alias: "l" },
     ];
     const snapshotOptions = commandLineArgs(snapshotDefinitions, { argv });
     try {

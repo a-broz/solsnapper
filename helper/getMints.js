@@ -6,7 +6,14 @@ import { writeFileSync } from "fs";
 export async function getMints(rpc, snapshotOptions) {
   const connection = new Connection(rpc, { httpAgent: false });
   const metaplex = new Metaplex(connection);
-
+  if (!snapshotOptions?.creator && !snapshotOptions?.owner) {
+    console.log(colors.green, "Must include --creator or --owner");
+    return false;
+  }
+  if (snapshotOptions?.creator && snapshotOptions?.owner) {
+    console.log(colors.green, "Can only include either --creator or --owner");
+    return false;
+  }
   if (snapshotOptions.creator) {
     console.log(
       colors.green,

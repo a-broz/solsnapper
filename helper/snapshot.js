@@ -12,14 +12,6 @@ export default async function snapshot({ rpc, snapshotOptions }) {
     return false;
   }
   if (snapshotOptions.type == "mints") {
-    if (!snapshotOptions?.creator || !snapshotOptions?.owner) {
-      console.log(colors.green, "Must include --creator or --owner");
-      return false;
-    }
-    if (snapshotOptions?.creator && snapshotOptions?.owner) {
-      console.log(colors.green, "Can only include either --creator or --owner");
-      return false;
-    }
     getMints(rpc, snapshotOptions);
   }
 

@@ -8,12 +8,12 @@ export async function getMetadata(rpc, snapshotOptions) {
   const connection = new Connection(rpc, { httpAgent: false });
   const metaplex = new Metaplex(connection);
 
-  if (!snapshotOptions?.mintList) {
+  if (!snapshotOptions?.list) {
     console.log(colors.red, `No mint list was provided for metadata snapshot`);
     return false;
   }
 
-  const nftStrings = JSON.parse(readFileSync(snapshotOptions.mintList));
+  const nftStrings = JSON.parse(readFileSync(snapshotOptions.list));
   let nftPKs = [];
   for (const nft of nftStrings) {
     try {
@@ -31,7 +31,7 @@ export async function getMetadata(rpc, snapshotOptions) {
   const promises = nftPKs.map((nft) => {
     return limit(async () => {
       const nftObj = await metaplex.nfts().findByMint({ mintAddress: nft });
-      metadata.push({ metadata: nftObj.json, mintAdress: nft });
+      metadata.push({ offChainMetadata: nftObj.json, mintAdress: nft, auth: nftObj.updateAuthorityAddress });
       completedCount++;
     });
   });

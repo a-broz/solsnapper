@@ -1,8 +1,9 @@
 {
   "type": "module",
   "dependencies": {
-    "@metaplex-foundation/js": "^0.18.1",
+    "@metaplex-foundation/js": "^0.18.3",
     "@solana/web3.js": "^1.73.2",
+    "canvas": "^2.11.2",
     "command-line-args": "^5.2.1",
     "dotenv": "^16.0.3",
     "got": "^12.6.0",
