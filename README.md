@@ -62,3 +62,10 @@ This will update a list of mint addresses onto a new metaplex collection.
 `--uri` should be set as the new uri
 
 `node solsnapper.js --rpc <RPC> update --list mintsByCreator.json --uri https://arweave.net/NEWARWEAVELINKHERE`
+
+#### Mass Change Update Authority against list
+This will update a list of mint addresses to a new update authority
+
+`--authority` should be set as the new update authority
+
+`node solsnapper.js --rpc <RPC> update --list mintsByCreator.json --authority <NEWAUTHADDRESS>

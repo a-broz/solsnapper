@@ -41,7 +41,14 @@ export default async function update({ rpc, updateOptions }) {
       return;
     }
   }
-
+  if (updateOptions.authority) {
+    try {
+      new PublicKey(updateOptions.authority);
+    } catch (e) {
+      console.log(colors.red, "Invalid update authority address");
+      return;
+    }
+  }
   const limit = pLimit(30);
   const numNfts = mints.length;
   let completedCount = 0;
@@ -97,6 +104,16 @@ export default async function update({ rpc, updateOptions }) {
             );
           } else {
             nftFieldsToUpdate.uri = updateOptions?.uri;
+          }
+        }
+        if (updateOptions?.authority) {
+          if (nft.updateAuthorityAddress === updateOptions.authority) {
+            console.log(
+              colors.red,
+              `No need to update authority for ${mint}, already matches input on chain`
+            );
+          } else {
+            nftFieldsToUpdate.updateAuthorityAddress = updateOptions?.authority;
           }
         }
         const resp = await metaplex.nfts().update({
