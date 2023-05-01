@@ -30,6 +30,7 @@ switch (mainOptions.command) {
     const updateDefinitions = [
       { name: "name", type: String, alias: "n" },
       { name: "collection", type: String, alias: "c" },
+      { name: "uri", type: String, alias: "u" },
       { name: "mint", type: String, alias: "m" },
       { name: "list", type: String, alias: "l" },
     ];

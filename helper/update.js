@@ -16,6 +16,7 @@ export default async function update({ rpc, updateOptions }) {
   }
 
   let mints;
+  let logs = [];
   if (updateOptions.mint) {
     mints = [updateOptions.mint];
   } else {
@@ -88,11 +89,22 @@ export default async function update({ rpc, updateOptions }) {
             nftFieldsToUpdate.collection = collectionkey;
           }
         }
+        if (updateOptions?.uri) {
+          if (nft.uri === updateOptions.uri) {
+            console.log(
+              colors.red,
+              `No need to update uri for ${mint}, already matches input on chain`
+            );
+          } else {
+            nftFieldsToUpdate.uri = updateOptions?.uri;
+          }
+        }
         const resp = await metaplex.nfts().update({
           nftOrSft: nft,
           ...nftFieldsToUpdate,
         });
-      } catch {
+      } catch (e) {
+        logs.push({ mintAddress: mint, error: e });
         brokenMints.push(mint);
       }
 
@@ -103,6 +115,9 @@ export default async function update({ rpc, updateOptions }) {
   Promise.all(promises)
     .then(() => {
       writeFileSync("update-cache.json", JSON.stringify(brokenMints));
+      if (logs.length > 0) {
+        writeFileSync("update-logs.json", JSON.stringify(logs));
+      }
     })
     .catch((error) => {
       console.log(`Error executing requests: ${error}`);

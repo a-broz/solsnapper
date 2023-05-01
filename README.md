@@ -46,7 +46,7 @@ PRIV_KEY=kNykCXNxgePDjFbDWjPNvXQRa8U12Ywc19dFVaQ7tebUj3m7H4sF4KKdJwM7yxxb3rqxchd
 3. Run `node solsnapper.js convert` 
 <b>NOTE:</b> This command converts a private key from B58 to Uint8Array which is what `solana` commandline uses by default. It will spit out a `key.json` file.
 
-#### Update Nft Name
+#### Update Nft Name single NFT
 `node solsnapper.js update --rpc https://rpc.host.goes.here/ --name <Nft Name> --mint <Mint Address>`
 
 #### Update Nft collection against list
@@ -55,3 +55,10 @@ This will update a list of mint addresses onto a new metaplex collection.
 `--collection` should be set as the correct collection NFT address
 
 `node solsnapper.js --rpc <RPC> update --list mintsByCreator.json --collection 4chqK6Lau6EUytPEoVvUS2qFWvCRM4tqftv79FFn7hEj`
+
+#### Update Nft offchain metadata uri against list
+This will update a list of mint addresses onto a new metaplex collection.
+
+`--uri` should be set as the new uri
+
+`node solsnapper.js --rpc <RPC> update --list mintsByCreator.json --uri https://arweave.net/NEWARWEAVELINKHERE`

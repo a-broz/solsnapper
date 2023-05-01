@@ -5,3 +5,5 @@ custom_commands
 mintsByOwner.json
 mintsByCreator.json
 metadataSnap.json
+update-cache.json
+update-logs.json
