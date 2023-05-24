@@ -87,13 +87,17 @@ export default async function update({ rpc, updateOptions }) {
         }
         if (updateOptions?.collection) {
           const collectionkey = new PublicKey(updateOptions.collection);
-          if (nft.collection.address === collectionkey) {
+          if (nft?.collection?.address === collectionkey) {
             console.log(
               colors.red,
               `No need to update collection for ${mint}, already matches input on chain`
             );
           } else {
             nftFieldsToUpdate.collection = collectionkey;
+            nftFieldsToUpdate.collectionIsSized = false;
+            nftFieldsToUpdate.collectionAuthority = Keypair.fromSeed(
+              Uint8Array.from(key)
+            );
           }
         }
         if (updateOptions?.uri) {
@@ -107,21 +111,26 @@ export default async function update({ rpc, updateOptions }) {
           }
         }
         if (updateOptions?.authority) {
-          if (nft.updateAuthorityAddress === updateOptions.authority) {
+          if (
+            nft.updateAuthorityAddress.toBase58() === updateOptions.authority
+          ) {
             console.log(
               colors.red,
               `No need to update authority for ${mint}, already matches input on chain`
             );
           } else {
-            nftFieldsToUpdate.updateAuthorityAddress = updateOptions?.authority;
+            nftFieldsToUpdate.newUpdateAuthority = new PublicKey(
+              updateOptions?.authority
+            );
           }
         }
         const resp = await metaplex.nfts().update({
           nftOrSft: nft,
           ...nftFieldsToUpdate,
         });
+        //console.log(resp)
       } catch (e) {
-        logs.push({ mintAddress: mint, error: e });
+        logs.push({ mintAddress: mint, error: e.message });
         brokenMints.push(mint);
       }
 
