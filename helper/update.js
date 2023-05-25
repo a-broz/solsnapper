@@ -73,7 +73,7 @@ export default async function update({ rpc, updateOptions }) {
         if (updateOptions?.name) {
           if (nft.name === updateOptions.name) {
             console.log(
-              colors.red,
+              colors.green,
               "No need to update name, already matches input on chain"
             );
             return;
@@ -89,9 +89,11 @@ export default async function update({ rpc, updateOptions }) {
           const collectionkey = new PublicKey(updateOptions.collection);
           if (nft?.collection?.address === collectionkey) {
             console.log(
-              colors.red,
+              colors.green,
               `No need to update collection for ${mint}, already matches input on chain`
             );
+            completedCount++;
+            return;
           } else {
             nftFieldsToUpdate.collection = collectionkey;
             nftFieldsToUpdate.collectionIsSized = false;
@@ -103,9 +105,11 @@ export default async function update({ rpc, updateOptions }) {
         if (updateOptions?.uri) {
           if (nft.uri === updateOptions.uri) {
             console.log(
-              colors.red,
+              colors.green,
               `No need to update uri for ${mint}, already matches input on chain`
             );
+            completedCount++;
+            return;
           } else {
             nftFieldsToUpdate.uri = updateOptions?.uri;
           }
@@ -115,9 +119,11 @@ export default async function update({ rpc, updateOptions }) {
             nft.updateAuthorityAddress.toBase58() === updateOptions.authority
           ) {
             console.log(
-              colors.red,
+              colors.green,
               `No need to update authority for ${mint}, already matches input on chain`
             );
+            completedCount++;
+            return;
           } else {
             nftFieldsToUpdate.newUpdateAuthority = new PublicKey(
               updateOptions?.authority
@@ -128,7 +134,6 @@ export default async function update({ rpc, updateOptions }) {
           nftOrSft: nft,
           ...nftFieldsToUpdate,
         });
-        //console.log(resp)
       } catch (e) {
         logs.push({ mintAddress: mint, error: e.message });
         brokenMints.push(mint);
